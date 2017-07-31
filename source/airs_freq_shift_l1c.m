@@ -2,19 +2,23 @@ function [] = airs_freq_shift_l1c(sdate)
 
 % AIRS frequency Correction in L1C data for single date.
 %
+% INPUT:  datetime variable for seelcted day to process.
+%
+% OUTPUT: None
+%         Writes new L1C data file.
+%
 % Notes: to be used for AIRS L1c data
+%        v1.0.0 is not stress tested and assumes whole granule files.
 %
 % Method:
 %  1. Get the nominal L1b and L1c channel centers [2378] & [2645]
-%  2. 
-%  2. Load Observation data on L1c grid [2645] and compute orbit phase
-%  3. Calculate frequency drift correction of channel centers [2378]
-%  4. Add on Doppler shift to channel centers [2378] (negligible for SNO center-track)
-%  5. Shift the SRF w/fake tabulation [2834] for use with airs2cris decon & translation -
-%     note that only the 2378 channel subset will be changed.
-%  6. Update the L1c frequency grid using the 2378 shifted channels.
+%  2. Sort channel sets, find common and synthetic channels in L1C set.
+%  3. Load Observation data on L1c grid [2645] and compute orbit phase
+%  4. Calculate frequency drift correction of channel centers [2378]
+%  5. Resample radiances onto nominal grid and translate to L1C grid.
+%  6. Save data to new L1C MAT files.
 %
-%
+% v1.00 28Jul2017. C Hepplewhite. 
 
 cd /home/chepplew/projects/airs/freqCal/run
 addpath /home/chepplew/projects/airs/freqCal/source
